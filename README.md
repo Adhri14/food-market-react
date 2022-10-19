@@ -1,8 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and download this template HTML to [`Nice Admin`](https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template).
 
 ## Getting Started
 
-First, run the development server:
+First, Clone this project: 
+
+```bash
+git clone https://github.com/Adhri14/Template-React-Nice-Admin.git # clone with https
+# or
+git clone git@github.com:Adhri14/Template-React-Nice-Admin.git # clone with ssh
+# or
+gh repo clone Adhri14/Template-React-Nice-Admin # clone with Github CLI
+```
+
+Second, run the development server:
 
 ```bash
 npm run dev
