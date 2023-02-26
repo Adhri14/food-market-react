@@ -1,12 +1,16 @@
+import CryptoJS from "crypto-js";
+import jwtDecode from 'jwt-decode';
+import { useEffect } from "react";
 import Footer from "../componets/layouts/footer";
 import Header from "../componets/layouts/header";
 import Main from "../componets/layouts/main";
 import SideBar from "../componets/layouts/sidebar";
 
-export default function index() {
+export default function index({ user }) {
+
   return (
     <>
-      <Header />
+      <Header user={user} />
       {/* < !-- ======= Sidebar ======= --> */}
       <SideBar />
       {/* <!--End Sidebar-- > */}
@@ -21,4 +25,36 @@ export default function index() {
       <a href="#" className="back-to-top d-flex align-items-center justify-content-center"><i className="bi bi-arrow-up-short"></i></a>
     </>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = req.cookies;
+  const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
+  const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+
+  const decode = jwtDecode(oriToken);
+
+  if (decode.user.isAdmin === 'USER') {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: decode.user
+    },
+  }
 }

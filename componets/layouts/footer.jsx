@@ -3,7 +3,7 @@ export default function Footer() {
     return (
         <footer id="footer" className="footer">
             <div className="copyright">
-                &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>FoodMarket</span></strong>. All Rights Reserved
             </div>
             <div className="credits">
                 {/* <!-- All the links in the footer should remain intact. -->
