@@ -22,14 +22,11 @@ export default function SideBar() {
                 <NavLinkSidebar href="/user-profile" title="Profile" pathname={pathname} icon="bi-person" />
                 {/* <!-- End Profile Page Nav --> */}
 
-                <NavLinkSidebar href="/faq" title="F.A.Q" pathname={pathname} icon="bi-question-circle" />
+                <NavLinkSidebar href="/food" title="Food" pathname={pathname} icon="bi-currency-dollar" />
                 {/* <!-- End F.A.Q Page Nav --> */}
 
-                <NavLinkSidebar href="/contact" title="Contact" pathname={pathname} icon="bi-envelope" />
+                <NavLinkSidebar href="/transaction" title="Transaction" pathname={pathname} icon="bi-cart-check" />
                 {/* <!-- End Contact Page Nav --> */}
-
-                <NavLinkSidebar href="/blank" title="Blank" pathname={pathname} icon="bi-file-earmark" />
-                {/* <!-- End Blank Page Nav --> */}
 
             </ul>
 

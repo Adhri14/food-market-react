@@ -29,12 +29,8 @@ export default function index({ user }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = req.cookies;
-  const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
-  const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
 
-  const decode = jwtDecode(oriToken);
-
-  if (decode.user.isAdmin === 'USER') {
+  if (!token) {
     return {
       redirect: {
         destination: "/login",
@@ -43,7 +39,12 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  if (!token) {
+  const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
+  const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+
+  const decode = jwtDecode(oriToken);
+
+  if (decode.user.isAdmin === 'USER') {
     return {
       redirect: {
         destination: "/login",

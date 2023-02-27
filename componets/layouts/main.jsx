@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useCallback, useEffect, useRef, useState } from "react";
 import CardMain from "../molecules/CardMain";
 import CryptoJS from "crypto-js";
+import Link from "next/link";
 
 export default function Main() {
     const [users, setUsers] = useState([]);
@@ -35,7 +36,7 @@ export default function Main() {
                 <h1>Dashboard</h1>
                 <nav>
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li className="breadcrumb-item"><Link href="/">Home</Link></li>
                         <li className="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </nav>

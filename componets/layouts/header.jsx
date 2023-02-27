@@ -10,13 +10,6 @@ export default function Header({ user }) {
         router.push('/login');
     }, []);
 
-    useEffect(() => {
-        const toggleNav = document.querySelector('.toggle-sidebar-btn');
-        toggleNav.addEventListener('click', function (e) {
-            document.querySelector('body').classList.toggle('toggle-sidebar')
-        });
-    }, []);
-
     return (
         <header id="header" className="header fixed-top d-flex align-items-center">
 
@@ -56,19 +49,6 @@ export default function Header({ user }) {
                                     <i className="bi bi-person"></i>
                                     <span>My Profile</span>
                                 </a>
-                            </li>
-                            <li>
-                                <hr className="dropdown-divider" />
-                            </li>
-
-                            <li>
-                                <a className="dropdown-item d-flex align-items-center" href="/user-profile">
-                                    <i className="bi bi-gear"></i>
-                                    <span>Account Settings</span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr className="dropdown-divider" />
                             </li>
                             <li>
                                 <hr className="dropdown-divider" />

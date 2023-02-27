@@ -21,24 +21,18 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     setShowChild(true);
-  }, [])
+  }, []);
 
   const renderTitle = () => {
     switch (pathname) {
       case '/':
         return 'Dashboard'
-      case '/blank':
-        return 'Blank'
-      case '/register':
-        return 'Registrasi'
       case '/login':
         return 'Login'
-      case '/contact':
-        return 'Contact'
-      case '/contact':
-        return 'Contact'
-      case '/faq':
-        return 'F.A.Q'
+      case '/transaction':
+        return 'Transaction'
+      case '/food':
+        return 'Food'
       case '/user-profile':
         return 'Profile'
 
@@ -56,12 +50,12 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>{renderTitle()} - FoodMarket</title>
         {/* <!-- Vendor JS Files --> */}
-        <script src="/assets/vendor/quill/quill.min.js"></script>
-        <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script src="/assets/js/main.js"></script>
       </Head>
       <Component {...pageProps} />
-      <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+      <Script src="/assets/vendor/bootstrap/js/bootstrap.bundle.js"></Script>
+      {/* <script src="/assets/vendor/quill/quill.min.js"></script> */}
+      <Script src="/assets/vendor/simple-datatables/simple-datatables.js"></Script>
+      <Script src="/assets/js/main.js"></Script>
     </>
   )
 
