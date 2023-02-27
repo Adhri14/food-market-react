@@ -10,8 +10,6 @@
 })(this, (function () {
   'use strict';
 
-  console.log('masuk sini nggk')
-
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.1): util/index.js
