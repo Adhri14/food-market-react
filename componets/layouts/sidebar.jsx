@@ -6,8 +6,6 @@ import NavLinkSidebar from '../atoms/NavLinkSidebar'
 export default function SideBar() {
     const { pathname } = useRouter();
 
-    const checkPathComponents = pathname !== '/components/alerts' || pathname !== '/components/accordions' || pathname !== '/components/badges' || pathname !== '/components/breadcrumbs' || pathname !== '/components/buttons' || pathname !== '/components/cards' || pathname !== '/components/carousels' || pathname !== '/components/list-groups' || pathname !== '/components/modals' || pathname !== '/components/tabs' || pathname !== '/components/paginations' || pathname !== '/components/progress' || pathname !== '/components/spinners' || pathname !== '/components/tooltips';
-
     return (
         <aside id="sidebar" className="sidebar">
 

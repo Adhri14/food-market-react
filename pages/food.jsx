@@ -9,20 +9,28 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import FormatMoney from '../utils/FormatMoney'
+import DataTable from 'react-data-table-component'
 
 export default function Faq({ user }) {
     const router = useRouter();
     const tableRef = useRef(null);
     const [foods, setFoods] = useState([]);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
-        setTimeout(() => {
-            new simpleDatatables.DataTable(tableRef.current);
-        }, 1000);
+        const timeout = search !== '' ? setTimeout(() => {
+            // call function get search
+            getProducts(search);
+        }, 500) : getProducts();
+
+        return () => clearTimeout(timeout);
+    }, [search]);
+
+    useEffect(() => {
         getProducts();
     }, []);
 
-    const getProducts = async () => {
+    const getProducts = async (valueSearch = '') => {
         try {
             const token = Cookies.get('token',)
             const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
@@ -30,7 +38,7 @@ export default function Faq({ user }) {
             const headers = {
                 Authorization: `Bearer ${oriToken}`
             }
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product`, { headers });
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product?search=${valueSearch}`, { headers });
             setFoods(res.data.data);
         } catch (error) {
             console.log(error.response);
@@ -46,16 +54,44 @@ export default function Faq({ user }) {
                 Authorization: `Bearer ${oriToken}`
             }
             const res = await axios.delete(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/delete/${id}`, { headers });
-            console.log(res.data);
             if (res.data.status === 200) {
-                setTimeout(() => {
-                    getProducts();
-                }, 1000);
+                getProducts();
+                alert(res.data.message);
             }
         } catch (error) {
             console.log(error);
         }
     };
+
+    const columns = [
+        {
+            name: "Name",
+            selector: (row) => <span>{row.name}</span>,
+            sortable: true,
+        },
+        {
+            name: "Image",
+            selector: (row) => <img src={`${process.env.NEXT_PUBLIC_IMG}/${row.picturePath}`} alt="Thumbnail" className="thumbnail" width={100} height={100} />,
+        },
+        {
+            name: "Price",
+            selector: (row) => <span>{FormatMoney.getFormattedMoney(row.price)}</span>,
+            sortable: true,
+        },
+        {
+            name: "Rating",
+            selector: (row) => <span>{row.rating}</span>,
+            sortable: true,
+        },
+        {
+            name: "Action",
+            selector: (row) => <div className="d-flex">
+                <span type="button" className="badge rounded-pill bg-info">Edit</span>
+                <span type="button" className="badge rounded-pill bg-primary mx-2">Detail</span>
+                <span onClick={() => deleteProduct(row._id)} type="button" className="badge rounded-pill bg-danger">Delete</span>
+            </div>,
+        },
+    ]
 
     return (
         <React.Fragment>
@@ -74,8 +110,6 @@ export default function Faq({ user }) {
                 <section className="section dashboard">
                     <div className="row">
 
-                        <button onClick={() => deleteProduct("63fc19c2fb906b7fad8f57dd")}>Testing</button>
-
                         {/* <!-- Left side columns --> */}
                         <div className="col-lg-12">
                             <div className="row">
@@ -85,50 +119,18 @@ export default function Faq({ user }) {
                                     <div className="card recent-sales overflow-auto">
 
                                         <div className="card-body">
-                                            <table ref={tableRef} className="table table-borderless">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Picture</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col">Category</th>
-                                                        <th scope="col">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {foods.length > 0 ? foods.map((item, index) => {
-                                                        console.log(item);
-                                                        return (
-                                                            <tr key={item._id}>
-                                                                <th style={{
-                                                                    "verticalAlign": "middle",
-                                                                }} scope="row">{index + 1}</th>
-                                                                <td style={{
-                                                                    "verticalAlign": "middle",
-                                                                }}><img src={`${process.env.NEXT_PUBLIC_IMG}/${item.picturePath}`} className="thumbnail" alt="Thumbnail" /></td>
-                                                                <td style={{
-                                                                    "verticalAlign": "middle",
-                                                                }}>{item.name}</td>
-                                                                <td style={{
-                                                                    "verticalAlign": "middle",
-                                                                }}>{FormatMoney.getFormattedMoney(item.price)}</td>
-                                                                <td style={{
-                                                                    "verticalAlign": "middle",
-                                                                }}>{!item.category.length ? '-' : item.category.map(e => `${e.name} `)}</td>
-                                                                <td style={{
-                                                                    "verticalAlign": "middle",
-                                                                }}>
-                                                                    <button type="button" onClick={() => null} className="btn btn-sm rounded-pill btn-info">Edit</button>
-                                                                    <button type="button" onClick={() => null} className="btn btn-sm rounded-pill btn-primary mx-2">Detail</button>
-                                                                    <button type="button" onClick={() => deleteProduct(item._id)} className="btn btn-sm rounded-pill btn-danger">Delete</button>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    }) : null}
-                                                </tbody>
-                                            </table>
-
+                                            <div className="row justify-content-between mb-2">
+                                                <div className="col-lg-4">
+                                                    <input type="text" className="form-control" placeholder="Search by name..." value={search} onChange={val => setSearch(val.target.value)} />
+                                                </div>
+                                                <div className="col-lg-4 d-flex justify-content-end">
+                                                    <button type="button" onClick={() => router.push('/food/create')} className="btn btn-primary">
+                                                        <i class="bi bi-plus-circle me-2"></i>
+                                                        Add Food
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <DataTable pagination data={foods} columns={columns} />
                                         </div>
 
                                     </div>

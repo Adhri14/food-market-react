@@ -33,6 +33,8 @@ function MyApp({ Component, pageProps }) {
         return 'Transaction'
       case '/food':
         return 'Food'
+      case '/food/create':
+        return 'Food Create'
       case '/user-profile':
         return 'Profile'
 
