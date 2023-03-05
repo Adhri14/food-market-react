@@ -2,11 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../../../action/userProfile";
 import Alert from "../../atoms/Alert";
 
-export default function TabContentEditProfile({ user }) {
+
+export default function TabContentEditProfile() {
+    const user = useSelector(state => state.userProfile);
+    // const getUser = Cookies.get('_auth');
+    // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         name: '',

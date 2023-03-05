@@ -3,7 +3,7 @@ import Script from 'next/script';
 
 class MyDocument extends Document {
     static async getInitialProps(ctx) {
-        const originalRenderPage = ctx.renderPage
+        const originalRenderPage = ctx.renderPage;
 
         // Run the React rendering logic synchronously
         ctx.renderPage = () =>
@@ -15,9 +15,9 @@ class MyDocument extends Document {
             })
 
         // Run the parent `getInitialProps`, it now includes the custom `renderPage`
-        const initialProps = await Document.getInitialProps(ctx)
+        const initialProps = await Document.getInitialProps(ctx);
 
-        return initialProps
+        return initialProps;
     }
 
     render() {
@@ -25,7 +25,7 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     <meta charSet="utf-8" />
-                    <meta ref="https://nextjs.org/docs/messages/no-document-viewport-meta" />
+                    {/* <meta ref="https://nextjs.org/docs/messages/no-document-viewport-meta" /> */}
 
                     <meta content="" name="description" />
                     <meta content="" name="keywords" />

@@ -13,7 +13,6 @@ import Cookies from "js-cookie";
 import FormatMoney from "../utils/FormatMoney";
 
 export default function Transaction() {
-    const user = useSelector(state => state.userProfile);
     const router = useRouter();
     const [transactions, setTransactions] = useState([]);
     const [filter, setFilter] = useState("");
@@ -287,7 +286,7 @@ export default function Transaction() {
 
     return (
         <Fragment>
-            <Header user={user} />
+            <Header />
             <SideBar />
             <main id="main" className="main">
                 <div className="pagetitle">

@@ -14,7 +14,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Alert from "../../../componets/atoms/Alert";
 
 export default function EditFood() {
-  const user = useSelector(state => state.userProfile);
   const { validation } = useSelector((state) => state);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -250,7 +249,7 @@ export default function EditFood() {
 
   return (
     <Fragment>
-      <Header user={user} />
+      <Header />
       <SideBar />
       <main id="main" className="main">
         <div className="pagetitle">

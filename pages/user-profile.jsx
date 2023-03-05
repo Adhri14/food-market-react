@@ -9,13 +9,11 @@ import NavProfile from "../componets/molecules/UserProfile/NavProfile";
 import TabContentOverview from "../componets/molecules/UserProfile/TabContentOverview";
 import TabContentEditProfile from "../componets/molecules/UserProfile/TabContentEditProfile";
 import TabContentEditPassword from "../componets/molecules/UserProfile/TabContentEditPassword";
-import { useSelector } from "react-redux";
 
 export default function UserProfile() {
-    const user = useSelector(state => state.userProfile);
     return (
         <React.Fragment>
-            <Header user={user} />
+            <Header />
             <SideBar />
             <main id="main" className="main">
 
@@ -32,7 +30,7 @@ export default function UserProfile() {
 
                 <section className="section profile">
                     <div className="row">
-                        <CardProfile user={user} />
+                        <CardProfile />
 
                         <div className="col-xl-8">
 
@@ -42,9 +40,9 @@ export default function UserProfile() {
                                     <NavProfile />
                                     <div className="tab-content pt-2">
 
-                                        <TabContentOverview user={user} />
+                                        <TabContentOverview />
 
-                                        <TabContentEditProfile user={user} />
+                                        <TabContentEditProfile />
 
                                         <TabContentEditPassword />
 

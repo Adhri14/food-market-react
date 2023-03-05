@@ -13,7 +13,6 @@ import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
 
 export default function Food() {
-  const user = useSelector(state => state.userProfile);
   const router = useRouter();
   const [foods, setFoods] = useState([]);
   const [search, setSearch] = useState("");
@@ -124,7 +123,7 @@ export default function Food() {
 
   return (
     <React.Fragment>
-      <Header user={user} />
+      <Header />
       <SideBar />
       <main id="main" className="main">
         <div className="pagetitle">

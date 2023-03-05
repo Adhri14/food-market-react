@@ -2,8 +2,14 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import CryptoJS from "crypto-js";
 
-export default function Header({ user }) {
+export default function Header() {
+  const user = useSelector(state => state.userProfile);
+  // const getUser = Cookies.get('auth');
+  // console.log('cek cookies : ', getUser);
+  // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
   const router = useRouter();
   const onLogout = useCallback(() => {
     Cookies.remove("token");
@@ -35,7 +41,6 @@ export default function Header({ user }) {
                 src={`${process.env.NEXT_PUBLIC_IMG}/${user.picturePath}`}
                 alt="Profile"
                 className="rounded-circle"
-                alt="Profile Image"
                 width={120}
                 height={120}
               />

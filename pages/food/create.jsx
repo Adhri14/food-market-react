@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 export default function CreateFood() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { validation, userProfile: user } = useSelector((state) => state);
+  const { validation, } = useSelector((state) => state);
   const [image, setImage] = useState();
   const [previewImg, setPreviewImg] = useState();
   const [isUploadImage, setIsUploadImage] = useState(false);
@@ -192,7 +192,7 @@ export default function CreateFood() {
 
   return (
     <Fragment>
-      <Header user={user} />
+      <Header />
       <SideBar />
       <main id="main" className="main">
         <div className="pagetitle">

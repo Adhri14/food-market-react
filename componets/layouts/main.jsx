@@ -7,6 +7,8 @@ import Link from "next/link";
 
 export default function Main() {
     const [users, setUsers] = useState([]);
+    const [food, setFood] = useState([]);
+    const [transaction, setTransaction] = useState([]);
     const tableRef = useRef(null);
 
     useEffect(() => {
@@ -14,6 +16,8 @@ export default function Main() {
             new simpleDatatables.DataTable(tableRef.current);
         }, 1000)
         getAllUsers();
+        getProduct();
+        getTransaction();
     }, [])
 
     const getAllUsers = useCallback(async () => {
@@ -28,6 +32,32 @@ export default function Main() {
             // console.log(error);
         }
     }, []);
+
+    const getTransaction = async () => {
+        try {
+            const token = Cookies.get('token');
+            const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
+            const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/transaction`, { headers: { Authorization: `Bearer ${oriToken}` } });
+            setTransaction(res.data.data);
+        } catch (error) {
+            setTransaction([]);
+            // console.log(error);
+        }
+    }
+
+    const getProduct = async () => {
+        try {
+            const token = Cookies.get('token');
+            const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
+            const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product`, { headers: { Authorization: `Bearer ${oriToken}` } });
+            setFood(res.data.data);
+        } catch (error) {
+            setFood([]);
+            // console.log(error);
+        }
+    }
 
     return (
         <main id="main" className="main">
@@ -50,13 +80,13 @@ export default function Main() {
                     <div className="col-lg-12">
                         <div className="row">
 
-                            <CardMain title="Sales" value="30">
+                            <CardMain title="Products" value={food.length}>
                                 <i className="bi bi-cart"></i>
                             </CardMain>
-                            <CardMain title="Revenue" containerClassName="revenue-card" value={"30000"}>
+                            <CardMain title="Transactions" containerClassName="revenue-card" value={transaction.length}>
                                 <i className="bi bi-currency-dollar"></i>
                             </CardMain>
-                            <CardMain title="Customers" containerClassName="customers-card" value={"300"}>
+                            <CardMain title="Customers" containerClassName="customers-card" value={users.length}>
                                 <i className="bi bi-people"></i>
                             </CardMain>
 

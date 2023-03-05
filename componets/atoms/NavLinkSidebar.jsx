@@ -6,7 +6,7 @@ export default function NavLinkSidebar(props) {
     return (
         <li className="nav-item">
             <Link href={href}>
-                <a className={`nav-link ${pathname !== href ? 'collapsed' : ''}`}>
+                <a className={`nav-link ${pathname !== href ? "collapsed" : ""}`}>
                     <i className={`bi ${icon}`}></i>
                     <span>{title}</span>
                 </a>

@@ -8,11 +8,10 @@ import Main from "../componets/layouts/main";
 import SideBar from "../componets/layouts/sidebar";
 
 export default function index() {
-  const user = useSelector(state => state.userProfile);
 
   return (
     <>
-      <Header user={user} />
+      <Header />
       {/* < !-- ======= Sidebar ======= --> */}
       <SideBar />
       {/* <!--End Sidebar-- > */}

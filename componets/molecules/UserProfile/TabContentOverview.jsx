@@ -1,4 +1,11 @@
-export default function TabContentOverview({ user }) {
+import Cookies from "js-cookie";
+import CryptoJS from "crypto-js";
+import { useSelector } from "react-redux";
+
+export default function TabContentOverview() {
+    const user = useSelector(state => state.userProfile);
+    // const getUser = Cookies.get('_auth');
+    // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
     return (
         <div className="tab-pane fade show active profile-overview" id="profile-overview">
 

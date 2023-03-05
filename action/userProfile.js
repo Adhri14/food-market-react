@@ -1,4 +1,6 @@
 import axios from "axios";
+import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 
 export const getUserProfile = (token) => async (dispatch) => {
     try {
@@ -7,7 +9,8 @@ export const getUserProfile = (token) => async (dispatch) => {
                 Authorization: `Bearer ${token}`,
             }
         });
-        console.log(res);
+        const userProfile = CryptoJS.AES.encrypt(res.data.data, "$3cR3t_Pr0f!l");
+        Cookies.set('auth', userProfile);
         dispatch({ type: 'set_user_profile', value: res.data.data });
     } catch (error) {
         console.log(error.response);

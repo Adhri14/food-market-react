@@ -40,8 +40,9 @@ export default function Login() {
         try {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/auth/sign-in`, form);
             dispatch(getUserProfile(res.data.data));
+            // getUserProfile(res.data.data);
             // localStorage.setItem('token', encrypt(res.data.data));
-            Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys')).toString();
+            Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys').toString());
             router.push('/', undefined, { shallow: true });
         } catch (error) {
             console.log(error);
@@ -53,6 +54,23 @@ export default function Login() {
         }
         setIsLoading(false);
     }
+
+    // const getUserProfile = async (token) => {
+    //     try {
+    //         const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             }
+    //         });
+    //         // dispatch({ type: 'set_user_profile', value: res.data.data });
+    //         const userProfile = CryptoJS.AES.encrypt(res.data.data, "$3cR3t_Pr0f!l");
+    //         console.log('user profile : ', userProfile);
+    //         console.log('user profile : ', res.data.data);
+    //         Cookies.set('auth', userProfile);
+    //     } catch (error) {
+    //         console.log(error.response);
+    //     }
+    // }
 
     return (
         <main>
