@@ -53,10 +53,10 @@ export default function Main() {
                             <CardMain title="Sales" value="30">
                                 <i className="bi bi-cart"></i>
                             </CardMain>
-                            <CardMain title="Revenue" containerClassName="revenue-card" value={30000}>
+                            <CardMain title="Revenue" containerClassName="revenue-card" value={"30000"}>
                                 <i className="bi bi-currency-dollar"></i>
                             </CardMain>
-                            <CardMain title="Customers" containerClassName="customers-card" value={300}>
+                            <CardMain title="Customers" containerClassName="customers-card" value={"300"}>
                                 <i className="bi bi-people"></i>
                             </CardMain>
 

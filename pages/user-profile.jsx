@@ -9,8 +9,10 @@ import NavProfile from "../componets/molecules/UserProfile/NavProfile";
 import TabContentOverview from "../componets/molecules/UserProfile/TabContentOverview";
 import TabContentEditProfile from "../componets/molecules/UserProfile/TabContentEditProfile";
 import TabContentEditPassword from "../componets/molecules/UserProfile/TabContentEditPassword";
+import { useSelector } from "react-redux";
 
-export default function UserProfile({ user }) {
+export default function UserProfile() {
+    const user = useSelector(state => state.userProfile);
     return (
         <React.Fragment>
             <Header user={user} />

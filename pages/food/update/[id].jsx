@@ -1,27 +1,30 @@
 import { Fragment, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import CryptoJS from "crypto-js";
-import Header from "../../componets/layouts/header";
-import SideBar from "../../componets/layouts/sidebar";
-import Footer from "../../componets/layouts/footer";
+import Header from "../../../componets/layouts/header";
+import SideBar from "../../../componets/layouts/sidebar";
+import Footer from "../../../componets/layouts/footer";
 import Link from "next/link";
-import FormatMoney from "../../utils/FormatMoney";
+import FormatMoney from "../../../utils/FormatMoney";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Select from "react-select";
 import { useRouter } from "next/router";
-import Alert from "../../componets/atoms/Alert";
 import { useSelector, useDispatch } from "react-redux";
+import Alert from "../../../componets/atoms/Alert";
 
-export default function CreateFood() {
-  const router = useRouter();
+export default function EditFood() {
+  const user = useSelector(state => state.userProfile);
+  const { validation } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const { validation, userProfile: user } = useSelector((state) => state);
+  const router = useRouter();
+  const { id } = router.query;
   const [image, setImage] = useState();
   const [previewImg, setPreviewImg] = useState();
   const [isUploadImage, setIsUploadImage] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectCategories, setSelectCategories] = useState([]);
+  const [picturePathDB, setPicturePathDB] = useState("");
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -36,6 +39,7 @@ export default function CreateFood() {
 
   useEffect(() => {
     getCategories();
+    getProductById();
   }, []);
 
   const getCategories = async () => {
@@ -50,13 +54,53 @@ export default function CreateFood() {
         `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/category`,
         { headers }
       );
-      console.log(res.data);
       let newData = [];
       res.data.data.map((item) => {
         newData.push({ value: item._id, label: item.name });
       });
 
       setCategories(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getProductById = async () => {
+    const token = Cookies.get("token");
+    const decryptAES = CryptoJS.AES.decrypt(token, "in_this_private_keys");
+    const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+    const headers = {
+      Authorization: `Bearer ${oriToken}`,
+    };
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/${id}`,
+        { headers }
+      );
+      const {
+        name,
+        description,
+        ingredients,
+        price,
+        rating,
+        category,
+        picturePath,
+      } = res.data.data;
+      let newDataCategories = [];
+      setForm({
+        ...form,
+        name,
+        description,
+        ingredients,
+        price,
+        rating,
+      });
+      category.map((item) => {
+        return newDataCategories.push({ value: item._id, label: item.name });
+      });
+      setSelectCategories(newDataCategories);
+      setPreviewImg(`${process.env.NEXT_PUBLIC_IMG}/${picturePath}`);
+      setPicturePathDB(picturePath);
     } catch (error) {
       console.log(error);
     }
@@ -100,23 +144,36 @@ export default function CreateFood() {
     const headers = {
       Authorization: `Bearer ${oriToken}`,
     };
-    setMessageError({
-      ...messageError,
-      text: "",
-      code: 0,
-    });
-    dispatch({ type: "clear_validation" });
     try {
-      const resUploadImage = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/io-file`,
-        { file: image },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      if (isUploadImage) {
+        const resUploadImage = await axios.post(
+          `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/io-file`,
+          { file: image },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (resUploadImage.data.status === 200) {
+          let newData = [];
+          selectCategories.map((item) => {
+            newData.push(item.value);
+          });
+          const body = {
+            ...form,
+            category: newData,
+            picturePath: resUploadImage.data.data.file,
+          };
+          const res = await axios.put(
+            `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/update/${id}`,
+            body,
+            { headers }
+          );
+          console.log(res.data);
+          router.push("/food");
         }
-      );
-      if (resUploadImage.data.status === 200) {
+      } else {
         let newData = [];
         selectCategories.map((item) => {
           newData.push(item.value);
@@ -124,14 +181,15 @@ export default function CreateFood() {
         const body = {
           ...form,
           category: newData,
-          picturePath: resUploadImage.data.data.file,
+          picturePath: picturePathDB,
         };
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/create`,
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/update/${id}`,
           body,
           { headers }
         );
-        if (res.data.status === 201) {
+        if (res.data.status === 200) {
+          console.log(res.data);
           router.push("/food");
         }
       }
@@ -205,7 +263,7 @@ export default function CreateFood() {
               <li className="breadcrumb-item">
                 <Link href="/food">Food</Link>
               </li>
-              <li className="breadcrumb-item active">Create</li>
+              <li className="breadcrumb-item active">Edit</li>
             </ol>
           </nav>
         </div>
@@ -259,7 +317,7 @@ export default function CreateFood() {
               <div className="col-12">
                 <div className="card recent-sales overflow-auto">
                   <div className="card-body">
-                    <h5 className="card-title">Create Food</h5>
+                    <h5 className="card-title">Edit Food</h5>
                     {messageError.code === 403 && (
                       <Alert
                         className="alert-danger"
@@ -379,9 +437,8 @@ export default function CreateFood() {
                           onChange={(val) => chooseImage(val.target.files[0])}
                         />
                       </div>
-
                       <button type="submit" className="btn btn-primary">
-                        Save Food
+                        Edit Food
                       </button>
                     </form>
                   </div>

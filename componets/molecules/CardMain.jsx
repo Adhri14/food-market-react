@@ -27,6 +27,6 @@ export default function CardMain({ children, title, value, containerClassName = 
 CardMain.propTypes = {
     children: node,
     title: string,
-    value: number,
+    value: string,
     containerClassName: string,
 }

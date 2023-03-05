@@ -4,8 +4,11 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Alert from "../componets/atoms/alert";
 import CryptoJS from "crypto-js";
+import { useDispatch } from "react-redux";
+import { getUserProfile } from "../action/userProfile";
 
 export default function Login() {
+    const dispatch = useDispatch();
     const router = useRouter();
     const [form, setForm] = useState({
         email: '',
@@ -26,7 +29,8 @@ export default function Login() {
         });
     };
 
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault()
         setIsLoading(true);
         setMessageError({
             ...messageError,
@@ -35,6 +39,7 @@ export default function Login() {
         });
         try {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/auth/sign-in`, form);
+            dispatch(getUserProfile(res.data.data));
             // localStorage.setItem('token', encrypt(res.data.data));
             Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys')).toString();
             router.push('/', undefined, { shallow: true });
@@ -75,12 +80,11 @@ export default function Login() {
                                             <p className="text-center small">Enter your email & password to login</p>
                                         </div>
 
-                                        <div className="row g-3">
+                                        <form onSubmit={onSubmit} className="row g-3">
 
                                             {messageError.code !== 0 ? <Alert className="alert-danger" title={messageError.text} /> : null}
-
                                             <div className="col-12">
-                                                <label for="yourUsername" className="form-label">Email</label>
+                                                <label htmlFor="yourUsername" className="form-label">Email</label>
                                                 <div className="input-group has-validation">
                                                     <span className="input-group-text" id="inputGroupPrepend">@</span>
                                                     <input value={form.email} onChange={e => onChangeText('email', e.target.value)} type="email" className="form-control" id="yourUsername" required />
@@ -89,22 +93,14 @@ export default function Login() {
                                             </div>
 
                                             <div className="col-12">
-                                                <label for="yourPassword" className="form-label">Password</label>
+                                                <label htmlFor="yourPassword" className="form-label">Password</label>
                                                 <input value={form.password} onChange={e => onChangeText('password', e.target.value)} type="password" name="password" className="form-control" id="yourPassword" required />
                                                 <div className="invalid-feedback">Please enter your password!</div>
                                             </div>
-
-                                            {/* <div className="col-12">
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" />
-                                                    <label className="form-check-label" for="rememberMe">Remember me</label>
-                                                </div>
-                                            </div> */}
                                             <div className="col-12">
-                                                <button disabled={isLoading} onClick={onSubmit} className="btn btn-primary w-100" type="button">{isLoading ? "Loading..." : "Login"}</button>
-                                                {/* <a href="/" className="btn btn-primary w-100">Login</a> */}
+                                                <button disabled={isLoading} className="btn btn-primary w-100" type="submit">{isLoading ? "Loading..." : "Login"}</button>
                                             </div>
-                                        </div>
+                                        </form>
 
                                     </div>
                                 </div>

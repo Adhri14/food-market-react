@@ -1,184 +1,219 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Footer from '../componets/layouts/footer'
-import Header from '../componets/layouts/header'
-import SideBar from '../componets/layouts/sidebar'
-import CryptoJS from 'crypto-js'
-import jwtDecode from 'jwt-decode'
-import Link from 'next/link'
-import axios from 'axios'
-import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import FormatMoney from '../utils/FormatMoney'
-import DataTable from 'react-data-table-component'
+import React, { useEffect, useState } from "react";
+import Footer from "../componets/layouts/footer";
+import Header from "../componets/layouts/header";
+import SideBar from "../componets/layouts/sidebar";
+import CryptoJS from "crypto-js";
+import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import FormatMoney from "../utils/FormatMoney";
+import DataTable from "react-data-table-component";
+import { useSelector } from "react-redux";
 
-export default function Faq({ user }) {
-    const router = useRouter();
-    const tableRef = useRef(null);
-    const [foods, setFoods] = useState([]);
-    const [search, setSearch] = useState('');
+export default function Food() {
+  const user = useSelector(state => state.userProfile);
+  const router = useRouter();
+  const [foods, setFoods] = useState([]);
+  const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        const timeout = search !== '' ? setTimeout(() => {
-            // call function get search
-            getProducts(search);
-        }, 500) : getProducts();
+  useEffect(() => {
+    const timeout =
+      search !== ""
+        ? setTimeout(() => {
+          // call function get search
+          getProducts(search);
+        }, 500)
+        : getProducts();
 
-        return () => clearTimeout(timeout);
-    }, [search]);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
-    useEffect(() => {
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = async (valueSearch = "") => {
+    try {
+      const token = Cookies.get("token");
+      const decryptAES = CryptoJS.AES.decrypt(token, "in_this_private_keys");
+      const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+      const headers = {
+        Authorization: `Bearer ${oriToken}`,
+      };
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product?search=${valueSearch}`,
+        { headers }
+      );
+      setFoods(res.data.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      const token = Cookies.get("token");
+      const decryptAES = CryptoJS.AES.decrypt(token, "in_this_private_keys");
+      const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+      const headers = {
+        Authorization: `Bearer ${oriToken}`,
+      };
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/delete/${id}`,
+        { headers }
+      );
+      if (res.data.status === 200) {
         getProducts();
-    }, []);
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const getProducts = async (valueSearch = '') => {
-        try {
-            const token = Cookies.get('token',)
-            const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
-            const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
-            const headers = {
-                Authorization: `Bearer ${oriToken}`
-            }
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product?search=${valueSearch}`, { headers });
-            setFoods(res.data.data);
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
+  const columns = [
+    {
+      name: "Name",
+      selector: (row) => <span>{row.name}</span>,
+      sortable: true,
+    },
+    {
+      name: "Image",
+      selector: (row) => (
+        <img
+          src={`${process.env.NEXT_PUBLIC_IMG}/${row.picturePath}`}
+          alt="Thumbnail"
+          className="thumbnail"
+          width={100}
+          height={100}
+        />
+      ),
+    },
+    {
+      name: "Price",
+      selector: (row) => (
+        <span>{FormatMoney.getFormattedMoney(row.price)}</span>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Rating",
+      selector: (row) => <span>{row.rating}</span>,
+      sortable: true,
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <div className="d-flex">
+          <Link href={`/food/update/${row._id}`} classNamee="text-white">
+            <span className="btn btn-sm btn-info">Edit</span>
+          </Link>
+          <span
+            onClick={() => deleteProduct(row._id)}
+            type="button"
+            className="btn btn-sm btn-danger ms-2"
+          >
+            Delete
+          </span>
+        </div>
+      ),
+    },
+  ];
 
-    const deleteProduct = async (id) => {
-        try {
-            const token = Cookies.get('token',)
-            const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
-            const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
-            const headers = {
-                Authorization: `Bearer ${oriToken}`
-            }
-            const res = await axios.delete(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/delete/${id}`, { headers });
-            if (res.data.status === 200) {
-                getProducts();
-                alert(res.data.message);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const columns = [
-        {
-            name: "Name",
-            selector: (row) => <span>{row.name}</span>,
-            sortable: true,
-        },
-        {
-            name: "Image",
-            selector: (row) => <img src={`${process.env.NEXT_PUBLIC_IMG}/${row.picturePath}`} alt="Thumbnail" className="thumbnail" width={100} height={100} />,
-        },
-        {
-            name: "Price",
-            selector: (row) => <span>{FormatMoney.getFormattedMoney(row.price)}</span>,
-            sortable: true,
-        },
-        {
-            name: "Rating",
-            selector: (row) => <span>{row.rating}</span>,
-            sortable: true,
-        },
-        {
-            name: "Action",
-            selector: (row) => <div className="d-flex">
-                <span type="button" className="badge rounded-pill bg-info">Edit</span>
-                <span type="button" className="badge rounded-pill bg-primary mx-2">Detail</span>
-                <span onClick={() => deleteProduct(row._id)} type="button" className="badge rounded-pill bg-danger">Delete</span>
-            </div>,
-        },
-    ]
-
-    return (
-        <React.Fragment>
-            <Header user={user} />
-            <SideBar />
-            <main id="main" className="main">
-                <div className="pagetitle">
-                    <h1>Food</h1>
-                    <nav>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><Link href="/">Home</Link></li>
-                            <li className="breadcrumb-item active">Food</li>
-                        </ol>
-                    </nav>
-                </div>
-                <section className="section dashboard">
-                    <div className="row">
-
-                        {/* <!-- Left side columns --> */}
-                        <div className="col-lg-12">
-                            <div className="row">
-
-                                {/* <!-- Food --> */}
-                                <div className="col-12">
-                                    <div className="card recent-sales overflow-auto">
-
-                                        <div className="card-body">
-                                            <div className="row justify-content-between mb-2">
-                                                <div className="col-lg-4">
-                                                    <input type="text" className="form-control" placeholder="Search by name..." value={search} onChange={val => setSearch(val.target.value)} />
-                                                </div>
-                                                <div className="col-lg-4 d-flex justify-content-end">
-                                                    <button type="button" onClick={() => router.push('/food/create')} className="btn btn-primary">
-                                                        <i class="bi bi-plus-circle me-2"></i>
-                                                        Add Food
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <DataTable pagination data={foods} columns={columns} />
-                                        </div>
-
-                                    </div>
-                                </div>
-                                {/* <!-- End Recent Sales --> */}
-
-                            </div>
+  return (
+    <React.Fragment>
+      <Header user={user} />
+      <SideBar />
+      <main id="main" className="main">
+        <div className="pagetitle">
+          <h1>Food</h1>
+          <nav>
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link href="/">Home</Link>
+              </li>
+              <li className="breadcrumb-item active">Food</li>
+            </ol>
+          </nav>
+        </div>
+        <section className="section dashboard">
+          <div className="row">
+            {/* <!-- Left side columns --> */}
+            <div className="col-lg-12">
+              <div className="row">
+                {/* <!-- Food --> */}
+                <div className="col-12">
+                  <div className="card recent-sales overflow-auto">
+                    <div className="card-body">
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-lg-4">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search by name..."
+                            value={search}
+                            onChange={(val) => setSearch(val.target.value)}
+                          />
                         </div>
-                        {/* <!-- End Left side columns --> */}
-
+                        <div className="col-lg-4 d-flex justify-content-end">
+                          <button
+                            type="button"
+                            onClick={() => router.push("/food/create")}
+                            className="btn btn-primary"
+                          >
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Add Food
+                          </button>
+                        </div>
+                      </div>
+                      <DataTable pagination data={foods} columns={columns} />
                     </div>
-                </section>
-            </main>
-            {/* <!-- End #main --> */}
-            <Footer />
-        </React.Fragment>
-    )
+                  </div>
+                </div>
+                {/* <!-- End Recent Sales --> */}
+              </div>
+            </div>
+            {/* <!-- End Left side columns --> */}
+          </div>
+        </section>
+      </main>
+      {/* <!-- End #main --> */}
+      <Footer />
+    </React.Fragment>
+  );
 }
 
 export async function getServerSideProps({ req }) {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
 
-    if (!token) {
-        return {
-            redirect: {
-                destination: "/login",
-                permanent: false,
-            },
-        };
-    }
-
-    const decryptAES = CryptoJS.AES.decrypt(token, 'in_this_private_keys');
-    const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
-
-    const decode = jwtDecode(oriToken);
-
-    if (decode.user.isAdmin === 'USER') {
-        return {
-            redirect: {
-                destination: "/login",
-                permanent: false,
-            },
-        };
-    }
-
+  if (!token) {
     return {
-        props: {
-            user: decode.user
-        },
-    }
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const decryptAES = CryptoJS.AES.decrypt(token, "in_this_private_keys");
+  const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
+
+  const decode = jwtDecode(oriToken);
+
+  if (decode.user.isAdmin === "USER") {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: decode.user,
+    },
+  };
 }
