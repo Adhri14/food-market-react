@@ -2,8 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
+import { useDispatch } from "react-redux";
+import { getUserProfile } from "../../../action/userProfile";
+import Alert from "../../atoms/Alert";
 
 export default function TabContentEditProfile({ user }) {
+    const dispatch = useDispatch();
     const [form, setForm] = useState({
         name: '',
         phoneNumber: '',
@@ -14,6 +18,8 @@ export default function TabContentEditProfile({ user }) {
     const [previewImage, setPreviewImage] = useState('');
     const [currentImage, setCurrentImage] = useState(user.picturePath);
     const [isUploadPicture, setIsUploadPicture] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isShowAlert, setIsShowAlert] = useState(false);
 
     useEffect(() => {
         setForm({
@@ -25,6 +31,8 @@ export default function TabContentEditProfile({ user }) {
             city: user.city
         });
         setPreviewImage(`${process.env.NEXT_PUBLIC_IMG}/${user.picturePath}`);
+        setIsShowAlert(false);
+        setMessage('');
     }, [])
 
     const onChangeText = (key, value) => {
@@ -57,6 +65,7 @@ export default function TabContentEditProfile({ user }) {
         const headers = {
             Authorization: `Bearer ${oriToken}`,
         };
+        console.log('masuk sini');
         try {
             if (isUploadPicture) {
                 const uploadFile = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/io-file`, { file: currentImage }, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -71,9 +80,32 @@ export default function TabContentEditProfile({ user }) {
                         body,
                         { headers }
                     );
-                    // if (res.data.status === 200) {
-
-                    // }
+                    if (res.data.status === 200) {
+                        dispatch(getUserProfile());
+                        setMessage(res.data.message);
+                        setIsShowAlert(true);
+                        setTimeout(() => {
+                            setIsShowAlert(false);
+                        }, 3000);
+                    }
+                }
+            } else {
+                const body = {
+                    ...form,
+                    picturePath: currentImage
+                }
+                const res = await axios.put(
+                    `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/update-profile`,
+                    body,
+                    { headers }
+                );
+                if (res.data.status === 200) {
+                    dispatch(getUserProfile(oriToken));
+                    setMessage(res.data.message);
+                    setIsShowAlert(true);
+                    setTimeout(() => {
+                        setIsShowAlert(false);
+                    }, 3000);
                 }
             }
         } catch (error) {
@@ -83,7 +115,7 @@ export default function TabContentEditProfile({ user }) {
 
     return (
         <form onSubmit={onSubmit} className="tab-pane fade profile-edit pt-3" id="profile-edit">
-
+            {isShowAlert && <Alert className="alert-success" title={message} />}
             {/* <!-- Profile Edit Form --> */}
             <div className="row mb-3">
                 <label htmlFor="profileImage" className="col-md-4 col-lg-3 col-form-label">Profile Image</label>
