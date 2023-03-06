@@ -78,7 +78,7 @@ export default function Transaction() {
         },
         {
             name: <b>Status</b>,
-            selector: (row) => <span className={`badge bg-${row.status === 'pending' ? 'warning' : row.status === 'paid' ? 'success' : row.status === 'on_deliver' ? 'info' : 'danger'}`}>{row.status}</span>,
+            selector: (row) => <span className={`badge bg-${row.status === 'pending' ? 'warning' : row.status === 'paid' || row.status === 'success' ? 'success' : row.status === 'on_deliver' ? 'info' : 'danger'}`}>{row.status}</span>,
         },
         {
             name: <b>Number Order</b>,
@@ -197,7 +197,7 @@ export default function Transaction() {
                                 </div>
                                 <div className="col-sm-6">
                                     <div className="d-flex justify-content-end">
-                                        <p className={`badge bg-${data.status === 'pending' ? 'warning' : data.status === 'paid' ? 'success' : data.status === 'on_deliver' ? 'info' : 'danger'}`}>{data.status}</p>
+                                        <p className={`badge bg-${data.status === 'pending' ? 'warning' : data.status === 'paid' || data.status === 'success' ? 'success' : data.status === 'on_deliver' ? 'info' : 'danger'}`}>{data.status}</p>
                                     </div>
                                 </div>
                             </div>
