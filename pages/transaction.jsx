@@ -1,19 +1,16 @@
-import { Fragment, useEffect, useState } from "react";
-import Header from '../componets/layouts/header'
-import SideBar from "../componets/layouts/sidebar";
-import Footer from "../componets/layouts/footer";
+import axios from "axios";
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import { Fragment, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import axios from "axios";
-import Cookies from "js-cookie";
+import Footer from "../componets/layouts/footer";
+import Header from '../componets/layouts/header';
+import SideBar from "../componets/layouts/sidebar";
 import FormatMoney from "../utils/FormatMoney";
 
 export default function Transaction() {
-    const router = useRouter();
     const [transactions, setTransactions] = useState([]);
     const [filter, setFilter] = useState("");
 
@@ -46,33 +43,11 @@ export default function Transaction() {
                 { headers }
             );
 
-            console.log('transaction : ', res.data);
             setTransactions(res.data.data);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     };
-
-    // const deleteProduct = async (id) => {
-    //     try {
-    //         const token = Cookies.get("token");
-    //         const decryptAES = CryptoJS.AES.decrypt(token, "in_this_private_keys");
-    //         const oriToken = decryptAES.toString(CryptoJS.enc.Utf8);
-    //         const headers = {
-    //             Authorization: `Bearer ${oriToken}`,
-    //         };
-    //         const res = await axios.delete(
-    //             `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/product/delete/${id}`,
-    //             { headers }
-    //         );
-    //         if (res.data.status === 200) {
-    //             getProducts();
-    //             alert(res.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     const columns = [
         {
@@ -148,12 +123,11 @@ export default function Transaction() {
                 { status },
                 { headers }
             );
-            console.log('cancel order : ', res.data);
             if (res.data.status === 200) {
                 getTransaction();
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
@@ -170,12 +144,11 @@ export default function Transaction() {
                 {},
                 { headers }
             );
-            console.log('cancel order : ', res.data);
             if (res.data.status === 200) {
                 getTransaction();
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
@@ -206,13 +179,13 @@ export default function Transaction() {
                     </div>
                 </div>
                 <div className="col-lg-4">
-                    <ul class="list-group">
-                        <li class="list-group-item"><h5>Customer</h5></li>
-                        <li class="list-group-item">Name : {data.user.name}</li>
-                        <li class="list-group-item">Address : {data.user.address}</li>
-                        <li class="list-group-item">House Number : {data.user.houseNumber}</li>
-                        <li class="list-group-item">City : {data.user.city}</li>
-                        <li class="list-group-item">Phone Number : {data.user.phoneNumber}</li>
+                    <ul className="list-group">
+                        <li className="list-group-item"><h5>Customer</h5></li>
+                        <li className="list-group-item">Name : {data.user.name}</li>
+                        <li className="list-group-item">Address : {data.user.address}</li>
+                        <li className="list-group-item">House Number : {data.user.houseNumber}</li>
+                        <li className="list-group-item">City : {data.user.city}</li>
+                        <li className="list-group-item">Phone Number : {data.user.phoneNumber}</li>
                     </ul>
                 </div>
                 <div className="col-lg-4">

@@ -1,7 +1,5 @@
 import CryptoJS from "crypto-js";
 import jwtDecode from 'jwt-decode';
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import Footer from "../componets/layouts/footer";
 import Header from "../componets/layouts/header";
 import Main from "../componets/layouts/main";

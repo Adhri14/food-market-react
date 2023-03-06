@@ -4,18 +4,18 @@ import Script from "next/script";
 import "../styles/globals.css";
 
 // Vendor CSS Style
-import "../public/assets/vendor/bootstrap/css/bootstrap.css";
 import "../public/assets/vendor/bootstrap-icons/bootstrap-icons.css";
+import "../public/assets/vendor/bootstrap/css/bootstrap.css";
 import "../public/assets/vendor/boxicons/css/boxicons.min.css";
-import "../public/assets/vendor/quill/quill.snow.css";
 import "../public/assets/vendor/quill/quill.bubble.css";
+import "../public/assets/vendor/quill/quill.snow.css";
 import "../public/assets/vendor/remixicon/remixicon.css";
 import "../public/assets/vendor/simple-datatables/style.css";
 // import '../public/assets/vendor/remixicon/remixicon.css';
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import store from "../redux/store";
 import { Provider } from "react-redux";
+import store from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
   const { pathname } = useRouter();

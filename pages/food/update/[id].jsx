@@ -1,17 +1,17 @@
-import { Fragment, useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import axios from "axios";
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import Alert from "../../../componets/atoms/Alert";
+import Footer from "../../../componets/layouts/footer";
 import Header from "../../../componets/layouts/header";
 import SideBar from "../../../componets/layouts/sidebar";
-import Footer from "../../../componets/layouts/footer";
-import Link from "next/link";
 import FormatMoney from "../../../utils/FormatMoney";
-import axios from "axios";
-import Cookies from "js-cookie";
-import Select from "react-select";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
-import Alert from "../../../componets/atoms/Alert";
 
 export default function EditFood() {
   const { validation } = useSelector((state) => state);
@@ -60,7 +60,7 @@ export default function EditFood() {
 
       setCategories(newData);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -101,7 +101,7 @@ export default function EditFood() {
       setPreviewImg(`${process.env.NEXT_PUBLIC_IMG}/${picturePath}`);
       setPicturePathDB(picturePath);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -169,7 +169,6 @@ export default function EditFood() {
             body,
             { headers }
           );
-          console.log(res.data);
           router.push("/food");
         }
       } else {
@@ -188,12 +187,11 @@ export default function EditFood() {
           { headers }
         );
         if (res.data.status === 200) {
-          console.log(res.data);
           router.push("/food");
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const statusCode =
         error?.response?.status === undefined ? 0 : error?.response?.status;
       const message = error.response?.data;

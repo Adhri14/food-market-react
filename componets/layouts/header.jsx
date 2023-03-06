@@ -1,18 +1,18 @@
-import Link from "next/link";
-import Cookies from "js-cookie";
-import { useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 export default function Header() {
-  const user = useSelector(state => state.userProfile);
-  // const getUser = Cookies.get('auth');
-  // console.log('cek cookies : ', getUser);
-  // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
+  const getUser = Cookies.get('token.local');
+  const decrypt = CryptoJS.AES.decrypt(getUser, "user_profile");
+  const user = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
+
   const router = useRouter();
   const onLogout = useCallback(() => {
     Cookies.remove("token");
+    Cookies.remove("token.local");
     router.push("/login");
   }, []);
 
@@ -21,7 +21,7 @@ export default function Header() {
       <div className="d-flex align-items-center justify-content-between">
         <Link href="/" className="cursor-pointer">
           <div className="logo d-flex align-items-center text-decoration-none">
-            <img src="/assets/img/logo.png" alt="" />
+            <img src="/assets/img/logo.png" alt="Logo Food Market" />
             <span className="d-none d-lg-block">FoodMarket</span>
           </div>
         </Link>

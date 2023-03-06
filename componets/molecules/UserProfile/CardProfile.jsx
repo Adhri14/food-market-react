@@ -1,11 +1,12 @@
-import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
-import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 export default function CardProfile() {
-    const user = useSelector(state => state.userProfile);
-    // const getUser = Cookies.get('_auth');
-    // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
+    // const user = useSelector(state => state.userProfile);
+    const getUser = Cookies.get('token.local');
+    const decrypt = CryptoJS.AES.decrypt(getUser, "user_profile");
+    const user = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
+
     return (
         <div className="col-xl-4">
 

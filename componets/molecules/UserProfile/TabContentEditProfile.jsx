@@ -1,16 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
-import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { getUserProfile } from "../../../action/userProfile";
 import Alert from "../../atoms/Alert";
 
 
 export default function TabContentEditProfile() {
-    const user = useSelector(state => state.userProfile);
-    // const getUser = Cookies.get('_auth');
-    // const user = CryptoJS.AES.decrypt(getUser, "$3cR3t_Pr0f!l");
+    // const user = useSelector(state => state.userProfile);
+    const getUser = Cookies.get('token.local');
+    const decrypt = CryptoJS.AES.decrypt(getUser, "user_profile");
+    const user = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
+
     const dispatch = useDispatch();
     const [form, setForm] = useState({
         name: '',
@@ -69,7 +71,6 @@ export default function TabContentEditProfile() {
         const headers = {
             Authorization: `Bearer ${oriToken}`,
         };
-        console.log('masuk sini');
         try {
             if (isUploadPicture) {
                 const uploadFile = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/io-file`, { file: currentImage }, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -85,7 +86,7 @@ export default function TabContentEditProfile() {
                         { headers }
                     );
                     if (res.data.status === 200) {
-                        dispatch(getUserProfile());
+                        dispatch(getUserProfile(oriToken));
                         setMessage(res.data.message);
                         setIsShowAlert(true);
                         setTimeout(() => {
@@ -113,7 +114,7 @@ export default function TabContentEditProfile() {
                 }
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     };
 

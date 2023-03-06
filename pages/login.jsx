@@ -1,11 +1,10 @@
 import axios from "axios";
+import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Alert from "../componets/atoms/alert";
-import CryptoJS from "crypto-js";
 import { useDispatch } from "react-redux";
-import { getUserProfile } from "../action/userProfile";
+import Alert from "../componets/atoms/alert";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -39,13 +38,25 @@ export default function Login() {
         });
         try {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/auth/sign-in`, form);
-            dispatch(getUserProfile(res.data.data));
+            if (res.status === 200) {
+                const result = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user`, {
+                    headers: {
+                        Authorization: `Bearer ${res.data.data}`,
+                    }
+                });
+                if (result.status === 200) {
+                    const userProfile = JSON.stringify(result.data.data);
+                    Cookies.set('token.local', CryptoJS.AES.encrypt(userProfile, 'user_profile').toString());
+                    Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys').toString());
+                    router.push('/', undefined, { shallow: true });
+                }
+                // dispatch({ type: 'set_user_profile', value: result.data.data });
+            }
+            // dispatch(getUserProfile(res.data.data));
             // getUserProfile(res.data.data);
             // localStorage.setItem('token', encrypt(res.data.data));
-            Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys').toString());
-            router.push('/', undefined, { shallow: true });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setMessageError({
                 ...messageError,
                 code: error.response?.status,
@@ -116,7 +127,7 @@ export default function Login() {
                                                 <div className="invalid-feedback">Please enter your password!</div>
                                             </div>
                                             <div className="col-12">
-                                                <button disabled={isLoading} className="btn btn-primary w-100" type="submit">{isLoading ? "Loading..." : "Login"}</button>
+                                                <button disabled={isLoading} className="btn btn-warning w-100" type="submit">{isLoading ? "Loading..." : "Login"}</button>
                                             </div>
                                         </form>
 

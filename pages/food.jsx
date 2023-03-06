@@ -47,7 +47,7 @@ export default function Food() {
       );
       setFoods(res.data.data);
     } catch (error) {
-      console.log(error.response);
+      // console.log(error.response);
     }
   };
 
@@ -68,7 +68,7 @@ export default function Food() {
         alert(res.data.message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -106,8 +106,8 @@ export default function Food() {
       name: "Action",
       selector: (row) => (
         <div className="d-flex">
-          <Link href={`/food/update/${row._id}`} classNamee="text-white">
-            <span className="btn btn-sm btn-info">Edit</span>
+          <Link href={`/food/update/${row._id}`}>
+            <span className="btn btn-sm btn-info text-white">Edit</span>
           </Link>
           <span
             onClick={() => deleteProduct(row._id)}
@@ -162,7 +162,7 @@ export default function Food() {
                             onClick={() => router.push("/food/create")}
                             className="btn btn-primary"
                           >
-                            <i class="bi bi-plus-circle me-2"></i>
+                            <i className="bi bi-plus-circle me-2"></i>
                             Add Food
                           </button>
                         </div>

@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react"
-import Link from 'next/link';
-import NavLinkSidebar from '../atoms/NavLinkSidebar'
+import NavLinkSidebar from '../atoms/NavLinkSidebar';
 
 export default function SideBar() {
     const { pathname } = useRouter();

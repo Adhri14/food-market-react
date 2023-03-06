@@ -1,4 +1,4 @@
-import { node, number, string } from "prop-types"
+import { node, string } from "prop-types"
 
 export default function CardMain({ children, title, value, containerClassName = 'sales-card' }) {
     return (

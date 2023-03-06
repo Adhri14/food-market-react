@@ -1,14 +1,14 @@
+import CryptoJS from "crypto-js";
 import jwtDecode from "jwt-decode";
 import React from "react";
 import Footer from "../componets/layouts/footer";
 import Header from "../componets/layouts/header";
 import SideBar from "../componets/layouts/sidebar";
-import CryptoJS from "crypto-js";
 import CardProfile from "../componets/molecules/UserProfile/CardProfile";
 import NavProfile from "../componets/molecules/UserProfile/NavProfile";
-import TabContentOverview from "../componets/molecules/UserProfile/TabContentOverview";
-import TabContentEditProfile from "../componets/molecules/UserProfile/TabContentEditProfile";
 import TabContentEditPassword from "../componets/molecules/UserProfile/TabContentEditPassword";
+import TabContentEditProfile from "../componets/molecules/UserProfile/TabContentEditProfile";
+import TabContentOverview from "../componets/molecules/UserProfile/TabContentOverview";
 
 export default function UserProfile() {
     return (

@@ -1,17 +1,17 @@
-import { Fragment, useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
+import axios from "axios";
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import Alert from "../../componets/atoms/Alert";
+import Footer from "../../componets/layouts/footer";
 import Header from "../../componets/layouts/header";
 import SideBar from "../../componets/layouts/sidebar";
-import Footer from "../../componets/layouts/footer";
-import Link from "next/link";
 import FormatMoney from "../../utils/FormatMoney";
-import axios from "axios";
-import Cookies from "js-cookie";
-import Select from "react-select";
-import { useRouter } from "next/router";
-import Alert from "../../componets/atoms/Alert";
-import { useSelector, useDispatch } from "react-redux";
 
 export default function CreateFood() {
   const router = useRouter();
@@ -50,7 +50,6 @@ export default function CreateFood() {
         `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/category`,
         { headers }
       );
-      console.log(res.data);
       let newData = [];
       res.data.data.map((item) => {
         newData.push({ value: item._id, label: item.name });
@@ -58,7 +57,7 @@ export default function CreateFood() {
 
       setCategories(newData);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -136,7 +135,7 @@ export default function CreateFood() {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       const statusCode =
         error?.response?.status === undefined ? 0 : error?.response?.status;
       const message = error.response?.data;

@@ -80,13 +80,13 @@ export default function Main() {
                     <div className="col-lg-12">
                         <div className="row">
 
-                            <CardMain title="Products" value={food.length}>
+                            <CardMain title="Products" value={`${food.length}`}>
                                 <i className="bi bi-cart"></i>
                             </CardMain>
-                            <CardMain title="Transactions" containerClassName="revenue-card" value={transaction.length}>
+                            <CardMain title="Transactions" containerClassName="revenue-card" value={`${transaction.length}`}>
                                 <i className="bi bi-currency-dollar"></i>
                             </CardMain>
-                            <CardMain title="Customers" containerClassName="customers-card" value={users.length}>
+                            <CardMain title="Customers" containerClassName="customers-card" value={`${users.length}`}>
                                 <i className="bi bi-people"></i>
                             </CardMain>
 
