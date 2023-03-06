@@ -3,11 +3,9 @@ import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import Alert from "../componets/atoms/alert";
 
 export default function Login() {
-    const dispatch = useDispatch();
     const router = useRouter();
     const [form, setForm] = useState({
         email: '',
@@ -50,11 +48,7 @@ export default function Login() {
                     Cookies.set('token', CryptoJS.AES.encrypt(res.data.data, 'in_this_private_keys').toString());
                     router.push('/', undefined, { shallow: true });
                 }
-                // dispatch({ type: 'set_user_profile', value: result.data.data });
             }
-            // dispatch(getUserProfile(res.data.data));
-            // getUserProfile(res.data.data);
-            // localStorage.setItem('token', encrypt(res.data.data));
         } catch (error) {
             // console.log(error);
             setMessageError({
@@ -65,23 +59,6 @@ export default function Login() {
         }
         setIsLoading(false);
     }
-
-    // const getUserProfile = async (token) => {
-    //     try {
-    //         const res = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             }
-    //         });
-    //         // dispatch({ type: 'set_user_profile', value: res.data.data });
-    //         const userProfile = CryptoJS.AES.encrypt(res.data.data, "$3cR3t_Pr0f!l");
-    //         console.log('user profile : ', userProfile);
-    //         console.log('user profile : ', res.data.data);
-    //         Cookies.set('auth', userProfile);
-    //     } catch (error) {
-    //         console.log(error.response);
-    //     }
-    // }
 
     return (
         <main>
@@ -127,7 +104,7 @@ export default function Login() {
                                                 <div className="invalid-feedback">Please enter your password!</div>
                                             </div>
                                             <div className="col-12">
-                                                <button disabled={isLoading} className="btn btn-warning w-100" type="submit">{isLoading ? "Loading..." : "Login"}</button>
+                                                <button disabled={isLoading} className="btn btn-primary w-100" type="submit">{isLoading ? "Loading..." : "Login"}</button>
                                             </div>
                                         </form>
 
