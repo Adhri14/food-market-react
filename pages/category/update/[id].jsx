@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import Alert from "../../../componets/atoms/alert";
+import Alert from "../../../componets/atoms/Alert";
 import Footer from "../../../componets/layouts/footer";
 import Header from "../../../componets/layouts/header";
 import SideBar from "../../../componets/layouts/sidebar";
