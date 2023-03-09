@@ -78,7 +78,7 @@ export default function TabContentEditProfile() {
                 if (uploadFile.data.status === 200) {
                     const body = {
                         ...form,
-                        picturePath: currentImage
+                        picturePath: uploadFile.data.data.file
                     }
                     const res = await axios.put(
                         `${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user/update-profile`,

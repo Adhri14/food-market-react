@@ -21,7 +21,7 @@ export default function Header() {
       <div className="d-flex align-items-center justify-content-between">
         <Link href="/" className="cursor-pointer">
           <div className="logo d-flex align-items-center text-decoration-none">
-            <img src="/assets/img/logo.png" alt="Logo Food Market" />
+            <img src="/assets/img/LogoFoodMarket.png" alt="Logo Food Market" />
             <span className="d-none d-lg-block">FoodMarket</span>
           </div>
         </Link>
@@ -40,9 +40,7 @@ export default function Header() {
               <img
                 src={`${process.env.NEXT_PUBLIC_IMG}/${user.picturePath}`}
                 alt="Profile"
-                className="rounded-circle"
-                width={120}
-                height={120}
+                className="profile-picture rounded-circle"
               />
               <span className="d-none d-md-block dropdown-toggle ps-2">
                 {user.name}

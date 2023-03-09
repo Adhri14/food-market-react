@@ -28,8 +28,8 @@ class MyDocument extends Document {
 
                     <meta content="" name="description" />
                     <meta content="" name="keywords" />
-                    <link href="/assets/img/favicon.png" rel="icon" />
-                    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+                    <link href="/assets/img/LogoFoodMarket.png" rel="icon" />
+                    <link href="/assets/img/LogoFoodMarket.png" rel="apple-touch-icon" />
 
                     {/* <!-- Google Fonts --> */}
                     <link href="https://fonts.gstatic.com" rel="preconnect" />

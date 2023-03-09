@@ -71,7 +71,7 @@ export default function Login() {
 
                                 <div className="d-flex justify-content-center py-4">
                                     <div className="logo d-flex align-items-center w-auto">
-                                        <img src="/assets/img/logo.png" alt="Logo" />
+                                        <img src="/assets/img/LogoFoodMarket.png" alt="Logo" />
                                         <span className="d-none d-lg-block">FoodMarket</span>
                                     </div>
                                 </div>

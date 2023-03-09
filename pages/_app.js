@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import { renderTitle } from "../utils/renderTitle";
 
 function MyApp({ Component, pageProps }) {
   const { pathname } = useRouter();
@@ -25,28 +26,6 @@ function MyApp({ Component, pageProps }) {
     setShowChild(true);
   }, []);
 
-  const renderTitle = () => {
-    switch (pathname) {
-      case "/":
-        return "Dashboard";
-      case "/login":
-        return "Login";
-      case "/transaction":
-        return "Transaction";
-      case "/food":
-        return "Food";
-      case "/food/create":
-        return "Food Create";
-      case "/food/update/[id]":
-        return "Food Edit";
-      case "/user-profile":
-        return "Profile";
-
-      default:
-        return "Not found";
-    }
-  };
-
   if (!showChild) return null;
 
   if (typeof window === undefined) return <div></div>;
@@ -54,7 +33,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Head>
-        <title>{renderTitle()} - FoodMarket</title>
+        <title>{renderTitle(pathname)} - FoodMarket</title>
         {/* <!-- Vendor JS Files --> */}
       </Head>
       <Component {...pageProps} />

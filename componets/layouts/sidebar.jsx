@@ -11,19 +11,11 @@ export default function SideBar() {
 
                 <li className="nav-heading">Home</li>
                 <NavLinkSidebar href="/" title="Dashboard" pathname={pathname} icon="bi-grid" />
-                {/* <!-- End Dashboard Nav --> */}
-
                 <li className="nav-heading">Pages</li>
-
                 <NavLinkSidebar href="/user-profile" title="Profile" pathname={pathname} icon="bi-person" />
-                {/* <!-- End Profile Page Nav --> */}
-
                 <NavLinkSidebar href="/food" title="Food" pathname={pathname} icon="bi-currency-dollar" />
-                {/* <!-- End F.A.Q Page Nav --> */}
-
+                <NavLinkSidebar href="/category" title="Category" pathname={pathname} icon="bi-bookmark-dash" />
                 <NavLinkSidebar href="/transaction" title="Transaction" pathname={pathname} icon="bi-cart-check" />
-                {/* <!-- End Contact Page Nav --> */}
-
             </ul>
 
         </aside>
