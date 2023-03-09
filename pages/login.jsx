@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Alert from "../componets/atoms/alert";
+import Alert from "../componets/atoms/Alert";
 
 export default function Login() {
     const router = useRouter();
