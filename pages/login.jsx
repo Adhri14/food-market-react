@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Alert from "../componets/atoms/Alert";
+import Alert from "../components/atoms/Alert";
 
 export default function Login() {
     const router = useRouter();
@@ -36,6 +36,7 @@ export default function Login() {
         });
         try {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/auth/sign-in`, form);
+            console.log(res);
             if (res.status === 200) {
                 const result = await axios.get(`${process.env.NEXT_PUBLIC_API}/${process.env.NEXT_PUBLIC_APP_VERSION}/user`, {
                     headers: {

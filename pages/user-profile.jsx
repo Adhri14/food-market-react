@@ -1,14 +1,15 @@
 import CryptoJS from "crypto-js";
 import jwtDecode from "jwt-decode";
 import React from "react";
-import Footer from "../componets/layouts/footer";
-import Header from "../componets/layouts/header";
-import SideBar from "../componets/layouts/sidebar";
-import CardProfile from "../componets/molecules/UserProfile/CardProfile";
-import NavProfile from "../componets/molecules/UserProfile/NavProfile";
-import TabContentEditPassword from "../componets/molecules/UserProfile/TabContentEditPassword";
-import TabContentEditProfile from "../componets/molecules/UserProfile/TabContentEditProfile";
-import TabContentOverview from "../componets/molecules/UserProfile/TabContentOverview";
+import Footer from "../components/layouts/footer";
+import Header from "../components/layouts/header";
+import SideBar from "../components/layouts/sidebar";
+import CardProfile from "../components/molecules/UserProfile/CardProfile";
+import NavProfile from "../components/molecules/UserProfile/NavProfile";
+import TabContentEditPassword from "../components/molecules/UserProfile/TabContentEditPassword";
+import TabContentEditProfile from "../components/molecules/UserProfile/TabContentEditProfile";
+import TabContentOverview from "../components/molecules/UserProfile/TabContentOverview";
+import Link from "next/link";
 
 export default function UserProfile() {
     return (
@@ -21,7 +22,7 @@ export default function UserProfile() {
                     <h1>Profile</h1>
                     <nav>
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li className="breadcrumb-item"><Link href="/">Home</Link></li>
                             <li className="breadcrumb-item active">Profile</li>
                         </ol>
                     </nav>

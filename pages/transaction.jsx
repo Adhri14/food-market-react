@@ -5,9 +5,9 @@ import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import Footer from "../componets/layouts/footer";
-import Header from '../componets/layouts/header';
-import SideBar from "../componets/layouts/sidebar";
+import Footer from "../components/layouts/footer";
+import Header from '../components/layouts/header';
+import SideBar from "../components/layouts/sidebar";
 import FormatMoney from "../utils/FormatMoney";
 
 export default function Transaction() {

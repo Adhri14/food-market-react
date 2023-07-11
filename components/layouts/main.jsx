@@ -12,12 +12,22 @@ export default function Main() {
     const tableRef = useRef(null);
 
     useEffect(() => {
-        setTimeout(() => {
-            new simpleDatatables.DataTable(tableRef.current);
-        }, 1000)
+        // setTimeout(() => {
+        //     new simpleDatatables.DataTable(tableRef.current);
+        // }, 1000)
         getAllUsers();
         getProduct();
         getTransaction();
+    }, [])
+
+    useEffect(() => {
+        // const simpleDatatables = import('../../public/assets/vendor/simple-datatables/simple-datatables.js');
+
+        // setTimeout(() => {
+        //     simpleDatatables.then(tables => {
+        //         tables.DataTable(tableRef.current);
+        //     })
+        // }, 1000)
     }, [])
 
     const getAllUsers = useCallback(async () => {
@@ -98,7 +108,7 @@ export default function Main() {
                                     <div className="card-body">
                                         <h5 className="card-title">Customers</h5>
 
-                                        <table ref={tableRef} className="table table-borderless">
+                                        <table className="table table-borderless datatable">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../componets/layouts/footer";
-import Header from "../componets/layouts/header";
-import SideBar from "../componets/layouts/sidebar";
+import Footer from "../components/layouts/footer";
+import Header from "../components/layouts/header";
+import SideBar from "../components/layouts/sidebar";
 import CryptoJS from "crypto-js";
 import jwtDecode from "jwt-decode";
 import Link from "next/link";
@@ -76,7 +76,6 @@ export default function Food() {
     {
       name: "Name",
       selector: (row) => <span>{row.name}</span>,
-      sortable: true,
     },
     {
       name: "Image",
@@ -95,12 +94,10 @@ export default function Food() {
       selector: (row) => (
         <span>{FormatMoney.getFormattedMoney(row.price)}</span>
       ),
-      sortable: true,
     },
     {
       name: "Rating",
       selector: (row) => <span>{row.rating}</span>,
-      sortable: true,
     },
     {
       name: "Action",
@@ -167,7 +164,7 @@ export default function Food() {
                           </button>
                         </div>
                       </div>
-                      <DataTable pagination data={foods} columns={columns} />
+                      <DataTable data={foods} columns={columns} />
                     </div>
                   </div>
                 </div>

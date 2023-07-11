@@ -42,6 +42,8 @@
    */
   if (select('.toggle-sidebar-btn')) {
     on('click', '.toggle-sidebar-btn', function (e) {
+      // e.preventDefault();
+      // console.log(this);
       select('body').classList.toggle('toggle-sidebar')
     })
   }
@@ -298,10 +300,11 @@
   /**
    * Initiate Datatables
    */
-  // const datatables = select('.datatable', true)
-  // datatables.forEach(datatable => {
-  //   new simpleDatatables.DataTable(datatable);
-  // })
+  const datatables = select('.datatable', true)
+  datatables.forEach(datatable => {
+    console.log(datatable);
+    new simpleDatatables.DataTable(datatable);
+  })
 
   /**
    * Autoresize echart charts

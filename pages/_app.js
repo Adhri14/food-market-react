@@ -17,6 +17,8 @@ import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import { renderTitle } from "../utils/renderTitle";
+import SidebarProvider from "../context/SidebarReducer";
+import { PersistGate } from "redux-persist/integration/react";
 
 function MyApp({ Component, pageProps }) {
   const { pathname } = useRouter();
@@ -26,21 +28,23 @@ function MyApp({ Component, pageProps }) {
     setShowChild(true);
   }, []);
 
+  useEffect(() => {
+    import('../public/assets/vendor/bootstrap/js/bootstrap.bundle.js');
+  }, [])
+
   if (!showChild) return null;
 
   if (typeof window === undefined) return <div></div>;
 
   return (
     <Provider store={store}>
-      <Head>
-        <title>{renderTitle(pathname)} - FoodMarket</title>
-        {/* <!-- Vendor JS Files --> */}
-      </Head>
-      <Component {...pageProps} />
-      <Script src="/assets/vendor/bootstrap/js/bootstrap.bundle.js"></Script>
-      {/* <script src="/assets/vendor/quill/quill.min.js"></script> */}
-      <Script src="/assets/vendor/simple-datatables/simple-datatables.js"></Script>
-      <Script src="/assets/js/main.js"></Script>
+      <SidebarProvider>
+        <Head>
+          <title>{renderTitle(pathname)} - FoodMarket</title>
+          {/* <!-- Vendor JS Files --> */}
+        </Head>
+        <Component {...pageProps} />
+      </SidebarProvider>
     </Provider>
   );
 }

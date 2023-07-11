@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../componets/layouts/footer";
-import Header from "../componets/layouts/header";
-import SideBar from "../componets/layouts/sidebar";
+import Footer from "../components/layouts/footer";
+import Header from "../components/layouts/header";
+import SideBar from "../components/layouts/sidebar";
 import CryptoJS from "crypto-js";
 import jwtDecode from "jwt-decode";
 import Link from "next/link";
@@ -121,7 +121,8 @@ export default function Category() {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <DataTable pagination data={categories} columns={columns} />
+                                            {/* <DataTable pagination data={categories} columns={columns} /> */}
+                                            <DataTable data={categories} columns={columns} pagination />
                                         </div>
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@ import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 export default function Header() {
   const getUser = Cookies.get('token.local');
@@ -15,6 +15,20 @@ export default function Header() {
     Cookies.remove("token.local");
     router.push("/login");
   }, []);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+    const clickMenu = () => {
+      body.classList.toggle('toggle-sidebar');
+    }
+
+    toggleBtn.addEventListener('click', clickMenu);
+    return () => {
+      toggleBtn.removeEventListener('click', clickMenu);
+    }
+  }, [])
+
 
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">

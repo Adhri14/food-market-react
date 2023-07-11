@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getUserProfile } from "../../../action/userProfile";
 import Alert from "../../atoms/Alert";
+import { useRouter } from "next/router";
 
 
 export default function TabContentEditProfile() {
     // const user = useSelector(state => state.userProfile);
+    const router = useRouter();
     const getUser = Cookies.get('token.local');
     const decrypt = CryptoJS.AES.decrypt(getUser, "user_profile");
     const user = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
@@ -91,6 +93,7 @@ export default function TabContentEditProfile() {
                         setIsShowAlert(true);
                         setTimeout(() => {
                             setIsShowAlert(false);
+                            router.reload();
                         }, 3000);
                     }
                 }
@@ -110,6 +113,7 @@ export default function TabContentEditProfile() {
                     setIsShowAlert(true);
                     setTimeout(() => {
                         setIsShowAlert(false);
+                        router.reload();
                     }, 3000);
                 }
             }

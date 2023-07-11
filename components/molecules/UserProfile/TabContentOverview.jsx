@@ -1,11 +1,14 @@
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
+import { useSidebar } from "../../../context/SidebarReducer";
 
 export default function TabContentOverview() {
     // const user = useSelector(state => state.userProfile);
     const getUser = Cookies.get('token.local');
     const decrypt = CryptoJS.AES.decrypt(getUser, "user_profile");
     const user = JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));
+    const test = useSidebar();
+    console.log(test);
     return (
         <div className="tab-pane fade show active profile-overview" id="profile-overview">
 

@@ -1,9 +1,9 @@
 import CryptoJS from "crypto-js";
 import jwtDecode from 'jwt-decode';
-import Footer from "../componets/layouts/footer";
-import Header from "../componets/layouts/header";
-import Main from "../componets/layouts/main";
-import SideBar from "../componets/layouts/sidebar";
+import Footer from "../components/layouts/footer";
+import Header from "../components/layouts/header";
+import Main from "../components/layouts/main";
+import SideBar from "../components/layouts/sidebar";
 
 export default function index() {
 

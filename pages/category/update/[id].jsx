@@ -5,10 +5,10 @@ import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import Alert from "../../../componets/atoms/Alert";
-import Footer from "../../../componets/layouts/footer";
-import Header from "../../../componets/layouts/header";
-import SideBar from "../../../componets/layouts/sidebar";
+import Alert from "../../../components/atoms/Alert";
+import Footer from "../../../components/layouts/footer";
+import Header from "../../../components/layouts/header";
+import SideBar from "../../../components/layouts/sidebar";
 
 export default function UpdateCategory() {
     const router = useRouter();
